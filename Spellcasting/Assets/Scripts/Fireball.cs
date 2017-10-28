@@ -26,6 +26,9 @@ public class Fireball : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (target == null)
+			Destroy (this.gameObject);
+
 
 		target_dir = target.transform.position - transform.position;
 		new_dir = Vector3.RotateTowards (transform.forward, target_dir, turn_speed, 0.0f);

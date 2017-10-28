@@ -26,8 +26,12 @@ public class Targeting : MonoBehaviour {
 			if (Physics.Raycast(ray, out hit))
 			{
 				if (hit.collider.gameObject.tag.Contains("Target")) {
+					if(target !=null && target != hit.collider.gameObject)	{
+						target.transform.GetChild (0).gameObject.GetComponent<Renderer> ().enabled = false;
+					}
 					target = hit.collider.gameObject;
 					t_display.UpdateTarget (target);
+					t_display.UpdateBars ();
 					hit.collider.gameObject.transform.GetChild (0).gameObject.GetComponent<Renderer> ().enabled = true;
 					Debug.Log ("TARGET SET TO " + hit.collider.gameObject.name);
 					//target_portrait.
