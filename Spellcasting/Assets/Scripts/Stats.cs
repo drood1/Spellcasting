@@ -7,7 +7,7 @@ public class Stats : MonoBehaviour {
 	public float max_hp = 100;
 	public float current_hp;
 
-	public Sprite target_portrait;
+	public Image target_portrait;
 
 	public Target_Display t_display;
 
@@ -23,6 +23,7 @@ public class Stats : MonoBehaviour {
 
 		if (current_hp <= 0) {
 			Debug.Log (this.gameObject.name = " DIED!");
+			t_display.UpdateTarget (null);
 			Destroy (this.gameObject);
 		}
 	}

@@ -7,19 +7,36 @@ public class Target_Display : MonoBehaviour {
 	public GameObject target;
 	public Stats target_stats;
 
+	public Image target_frame;
 	public Image HP_Bar;
 	public Image Mana_Bar;
-
+	public Image Portrait;
 
 	// Use this for initialization
 	void Start () {
 		HP_Bar = GameObject.Find ("Target_HP").GetComponent<Image> ();
 		Mana_Bar = GameObject.Find ("Target_Mana").GetComponent<Image> ();
+		target_frame = GameObject.Find ("Target_Frame").GetComponent<Image> ();
+		Portrait = GameObject.Find ("Target_Portrait").GetComponent<Image> ();
 	}
 
 	public void UpdateTarget(GameObject t)	{
-		target = t;
-		target_stats = target.GetComponent<Stats> ();
+		if (t == null) {
+			target_frame.enabled = false;
+			HP_Bar.enabled = false;
+			Mana_Bar.enabled = false;
+			Portrait.enabled = false;
+		}
+		else {
+			target = t;
+			target_stats = target.GetComponent<Stats> ();
+			target_frame.enabled = true;
+			HP_Bar.enabled = true;
+			Mana_Bar.enabled = true;
+			Portrait.enabled = true;
+			//Portrait = target.GetComponent<Stats> ().target_portrait;
+		}
+
 	}
 
 	public void UpdateBars()	{
