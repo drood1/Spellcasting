@@ -61,30 +61,29 @@ public class Fireball_Spell: MonoBehaviour {
 			//can't cast a spell if already casting one
 			if (casting == false) {
 				target = GetComponent<Targeting> ().target;
+				if (target != null) {
+					//calculate the angle between the target and the caster (to be used to see if target is "in front" of caster)
+					tar_dir = target.transform.position - this.transform.position;
+					tar_dir_f = Mathf.Atan2 (tar_dir.z, tar_dir.x) * Mathf.Rad2Deg;
 
-				//calculate the angle between the target and the caster (to be used to see if target is "in front" of caster)
-				tar_dir = target.transform.position - this.transform.position;
-				tar_dir_f = Mathf.Atan2(tar_dir.z, tar_dir.x) * Mathf.Rad2Deg;
-
-				//check if caster has a target
-				if (target == null) {
+					//check if caster is moving when trying to cast
+					if (rb.velocity.magnitude > 0) {
+						Debug.Log ("CAN'T CAST WHILE MOVING DINGUS");
+					} 
+					//check if target is "in front of" caster (within threshold)
+					else if (tar_dir_f > 90 + view_threshold_deg || tar_dir_f < 90 - view_threshold_deg) {
+						Debug.Log (tar_dir_f + " IS NOT IN FRONT OF YOU");
+					}
+					//all pre-checks successful, cast begins
+					else {
+						Invoke ("FinishCast", cast_time);
+						casting = true;
+						time_started = Time.time;
+						Debug.Log ("Cast started!");
+					}
+				}
+				else
 					Debug.Log ("HAVE NO TARGET DOOFUS");
-				} 
-				//check if caster is moving when trying to cast
-				else if (rb.velocity.magnitude > 0) {
-					Debug.Log ("CAN'T CAST WHILE MOVING DINGUS");
-				} 
-				//check if target is "in front of" caster (within threshold)
-				else if (tar_dir_f > 90 + view_threshold_deg || tar_dir_f < 90 - view_threshold_deg) {
-					Debug.Log (tar_dir_f + " IS NOT IN FRONT OF YOU");
-				}
-				//all pre-checks successful, cast begins
-				else {
-					Invoke ("FinishCast", cast_time);
-					casting = true;
-					time_started = Time.time;
-					Debug.Log ("Cast started!");
-				}
 			}
 			else 
 				Debug.Log ("YOU'RE ALREADY CASTING A SPELL DONKUS");
