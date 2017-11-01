@@ -43,6 +43,16 @@ public class Fireball_Spell: MonoBehaviour {
 	}
 
 	void FinishCast()	{
+		tar_dir = target.transform.position - this.transform.position;
+		tar_dir_f = Mathf.Atan2 (tar_dir.z, tar_dir.x) * Mathf.Rad2Deg;
+
+		if (tar_dir_f > 90 + view_threshold_deg || tar_dir_f < 90 - view_threshold_deg) {
+			Debug.Log (tar_dir_f + " IS NOT IN FRONT OF YOU");
+			OnCD = true;
+			casting = false;
+			return;
+		}
+
 		GameObject proj = Instantiate(fireball_obj, transform.position + (transform.forward), transform.rotation) as GameObject;
 		proj.GetComponent<Fireball> ().Initialize (target, base_damage);
 

@@ -12,6 +12,8 @@ public class Target_Display : MonoBehaviour {
 	public Image Mana_Bar;
 	public Image Portrait;
 
+	public Sprite p;
+
 	// Use this for initialization
 	void Start () {
 		HP_Bar = GameObject.Find ("Target_HP").GetComponent<Image> ();
@@ -34,14 +36,16 @@ public class Target_Display : MonoBehaviour {
 			HP_Bar.enabled = true;
 			Mana_Bar.enabled = true;
 			Portrait.enabled = true;
-			//Portrait = target.GetComponent<Stats> ().target_portrait;
+			Debug.Log("UPDATING DAT PORTRAIT");
+			Portrait.sprite = target.GetComponent<Stats> ().target_portrait;
+			Debug.Log (target.GetComponent<Stats> ().target_portrait.name);
 		}
 
 	}
 
 	public void UpdateBars()	{
-		Debug.Log ("CURRENT HP: " + target_stats.current_hp);
-		Debug.Log ("MAX HP: " + target_stats.max_hp);
+		//Debug.Log ("CURRENT HP: " + target_stats.current_hp);
+		//Debug.Log ("MAX HP: " + target_stats.max_hp);
 		HP_Bar.fillAmount = target_stats.current_hp / target_stats.max_hp;
 		//Mana_Bar.fillAmount = target_stats.current_mana / target_stats.max_mana;
 	}
