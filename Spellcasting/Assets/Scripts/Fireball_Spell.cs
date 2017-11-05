@@ -29,6 +29,7 @@ public class Fireball_Spell: MonoBehaviour {
 
 	Vector3 tar_dir;
 	float tar_dir_f;
+	float test;
 	public float view_threshold_deg = 60f;
 
 	public Image cast_bar;
@@ -46,8 +47,10 @@ public class Fireball_Spell: MonoBehaviour {
 		tar_dir = target.transform.position - this.transform.position;
 		tar_dir_f = Mathf.Atan2 (tar_dir.z, tar_dir.x) * Mathf.Rad2Deg;
 
-		if (tar_dir_f > 90 + view_threshold_deg || tar_dir_f < 90 - view_threshold_deg) {
-			Debug.Log (tar_dir_f + " IS NOT IN FRONT OF YOU");
+		test = Mathf.Atan2 (this.transform.forward.z, this.transform.forward.x) * Mathf.Rad2Deg;
+
+		if (tar_dir_f > test + view_threshold_deg || tar_dir_f < test - view_threshold_deg || tar_dir_f == test) {
+			Debug.Log (test + " IS NOT IN FRONT OF YOU");
 			OnCD = true;
 			casting = false;
 			return;
@@ -68,6 +71,9 @@ public class Fireball_Spell: MonoBehaviour {
 	void Update () {
 
 		if (Input.GetKeyDown (input_key)) {
+			test = Mathf.Atan2 (this.transform.forward.z, this.transform.forward.x) * Mathf.Rad2Deg;
+			Debug.Log("PLAYER'S 'FORWARD': " + test);
+
 			//can't cast a spell if already casting one
 			if (casting == false) {
 				target = GetComponent<Targeting> ().target;
@@ -75,15 +81,17 @@ public class Fireball_Spell: MonoBehaviour {
 					//calculate the angle between the target and the caster (to be used to see if target is "in front" of caster)
 					tar_dir = target.transform.position - this.transform.position;
 					tar_dir_f = Mathf.Atan2 (tar_dir.z, tar_dir.x) * Mathf.Rad2Deg;
+					Debug.Log ("PLAYER-TARGET ANGLE: " + tar_dir_f);
 
 					//check if caster is moving when trying to cast
 					if (rb.velocity.magnitude > 0) {
 						Debug.Log ("CAN'T CAST WHILE MOVING DINGUS");
 					} 
 					//check if target is "in front of" caster (within threshold)
-					else if (tar_dir_f > 90 + view_threshold_deg || tar_dir_f < 90 - view_threshold_deg) {
-						Debug.Log (tar_dir_f + " IS NOT IN FRONT OF YOU");
+					else if (tar_dir_f > test + view_threshold_deg || tar_dir_f < test - view_threshold_deg || tar_dir_f == test) {
+						Debug.Log (test + " IS NOT IN FRONT OF YOU");
 					}
+
 					//all pre-checks successful, cast begins
 					else {
 						Invoke ("FinishCast", cast_time);

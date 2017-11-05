@@ -52,6 +52,7 @@
      <Compile Include="Assets\Scripts\Strafing_Movement.cs" />
      <Compile Include="Assets\Scripts\Target_Display.cs" />
      <Compile Include="Assets\Scripts\Targeting.cs" />
+     <Compile Include="Assets\Scripts\Turning_Movement.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
