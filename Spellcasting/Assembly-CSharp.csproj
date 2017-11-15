@@ -48,6 +48,9 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Fireball.cs" />
      <Compile Include="Assets\Scripts\Fireball_Spell.cs" />
+     <Compile Include="Assets\Scripts\Mind_Flay.cs" />
+     <Compile Include="Assets\Scripts\Player_Stats.cs" />
+     <Compile Include="Assets\Scripts\Rotate_Camera.cs" />
      <Compile Include="Assets\Scripts\Stats.cs" />
      <Compile Include="Assets\Scripts\Strafing_Movement.cs" />
      <Compile Include="Assets\Scripts\Target_Display.cs" />

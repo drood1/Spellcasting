@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class Fireball_Spell: MonoBehaviour {
 	public GameObject target;
 
+	public Player_Stats owner;
+
 	public GameObject fireball_obj;
 
 	public float base_damage = 10;
@@ -36,6 +38,7 @@ public class Fireball_Spell: MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		owner = GameObject.Find ("Player").GetComponent<Player_Stats> ();
 		rb = GetComponent<Rigidbody> ();
 		cast_bar_obj = GameObject.Find ("CastBar");
 		bar_bg_obj = GameObject.Find ("CastBar_BG");
@@ -52,7 +55,7 @@ public class Fireball_Spell: MonoBehaviour {
 		if (tar_dir_f > test + view_threshold_deg || tar_dir_f < test - view_threshold_deg || tar_dir_f == test) {
 			Debug.Log (test + " IS NOT IN FRONT OF YOU");
 			OnCD = true;
-			casting = false;
+			owner.casting = false;
 			return;
 		}
 
@@ -62,7 +65,7 @@ public class Fireball_Spell: MonoBehaviour {
 		//proj.GetComponent<Rigidbody>().AddForce(transform.forward * fireball_movespeed, ForceMode.Impulse);
 
 		Debug.Log ("Cast complete!");
-		casting = false;
+		owner.casting = false;
 		time_completed = Time.time;
 		OnCD = true;
 	}
@@ -72,16 +75,16 @@ public class Fireball_Spell: MonoBehaviour {
 
 		if (Input.GetKeyDown (input_key)) {
 			test = Mathf.Atan2 (this.transform.forward.z, this.transform.forward.x) * Mathf.Rad2Deg;
-			Debug.Log("PLAYER'S 'FORWARD': " + test);
+			//Debug.Log("PLAYER'S 'FORWARD': " + test);
 
 			//can't cast a spell if already casting one
-			if (casting == false) {
+			if (owner.casting == false) {
 				target = GetComponent<Targeting> ().target;
 				if (target != null) {
 					//calculate the angle between the target and the caster (to be used to see if target is "in front" of caster)
 					tar_dir = target.transform.position - this.transform.position;
 					tar_dir_f = Mathf.Atan2 (tar_dir.z, tar_dir.x) * Mathf.Rad2Deg;
-					Debug.Log ("PLAYER-TARGET ANGLE: " + tar_dir_f);
+					//Debug.Log ("PLAYER-TARGET ANGLE: " + tar_dir_f);
 
 					//check if caster is moving when trying to cast
 					if (rb.velocity.magnitude > 0) {
@@ -95,8 +98,10 @@ public class Fireball_Spell: MonoBehaviour {
 					//all pre-checks successful, cast begins
 					else {
 						Invoke ("FinishCast", cast_time);
-						casting = true;
+						owner.casting = true;
 						time_started = Time.time;
+						owner.time_cast_started = time_started;
+						owner.cast_time = cast_time;
 						Debug.Log ("Cast started!");
 					}
 				}
@@ -108,22 +113,24 @@ public class Fireball_Spell: MonoBehaviour {
 		}
 
 		//casting is interrupted by movement
-		if (casting == true && rb.velocity.magnitude > 0) {
+		if (owner.casting == true && rb.velocity.magnitude > 0) {
 			Debug.Log ("SPELL CANCELLED DUE TO MOVEMENT");
 			CancelInvoke ();
-			casting = false;
+			owner.casting = false;
 		}
 
-		//cast bar appears/"fills" when casting
-		if (casting) {
-			bar_bg_obj.SetActive (true);
-			cast_bar_obj.SetActive (true);
-			cast_bar.fillAmount = ((Time.time - time_started) / cast_time);
-		} 
-		//if spell isn't being cast, cast bar doesn't appear
-		else{
-			bar_bg_obj.SetActive (false);
-			cast_bar_obj.SetActive (false);
-		}
+//		//cast bar appears/"fills" when casting
+//		if (owner.casting == true) {
+//			bar_bg_obj.SetActive (true);
+//			cast_bar_obj.SetActive (true);
+//			cast_bar.fillAmount = ((Time.time - time_started) / cast_time);
+//		} 
+//		//if spell isn't being cast, cast bar doesn't appear
+//		else {
+//			bar_bg_obj.SetActive (false);
+//			cast_bar_obj.SetActive (false);
+//		}
+
+
 	}
 }

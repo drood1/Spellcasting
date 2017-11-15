@@ -21,9 +21,11 @@ public class Targeting : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.Escape)) {
-			target.transform.GetChild (0).gameObject.GetComponent<Renderer> ().enabled = false;
-			target = null;
-			t_display.UpdateTarget (target);
+			if (target != null) {
+				target.transform.GetChild (0).gameObject.GetComponent<Renderer> ().enabled = false;
+				target = null;
+				t_display.UpdateTarget (target);
+			}
 		}
 		if (Input.GetMouseButtonDown (0)) {
 			RaycastHit hit;
