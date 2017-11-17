@@ -34,15 +34,16 @@ public class Rotate_Camera : MonoBehaviour {
 
 		if (Input.GetMouseButton (1)) {
 			Cursor.lockState = CursorLockMode.Locked;
-			xRot -= Input.GetAxis ("Mouse Y") * sensitivity;
+			//xRot -= Input.GetAxis ("Mouse Y") * sensitivity;
 			yRot += Input.GetAxis ("Mouse X") * sensitivity;
 
-			xRot = Mathf.Clamp (xRot, -90, 90);
+			//xRot = Mathf.Clamp (xRot, -90, 90);
 
-			currentXRot = Mathf.SmoothDamp (currentXRot, xRot, ref xRotV, lookSmoothDamp);
+			//currentXRot = Mathf.SmoothDamp (currentXRot, xRot, ref xRotV, lookSmoothDamp);
 			currentYRot = Mathf.SmoothDamp (currentYRot, yRot, ref yRotV, lookSmoothDamp);
 
-			transform.rotation = Quaternion.Euler (currentXRot, currentYRot, 0);
+			transform.rotation = Quaternion.Euler (0, currentYRot, 0);
+//			transform.rotation = Quaternion.Euler (currentXRot, currentYRot, 0);
 		} 
 		else
 			Cursor.lockState = CursorLockMode.None;
