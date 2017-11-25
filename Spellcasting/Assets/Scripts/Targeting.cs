@@ -40,7 +40,7 @@ public class Targeting : MonoBehaviour {
 					t_display.UpdateTarget (target);
 					t_display.UpdateBars ();
 					hit.collider.gameObject.transform.GetChild (0).gameObject.GetComponent<Renderer> ().enabled = true;
-					Debug.Log ("TARGET SET TO " + hit.collider.gameObject.name);
+					//Debug.Log ("TARGET SET TO " + hit.collider.gameObject.name);
 					//target_portrait.
 				}
 			}

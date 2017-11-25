@@ -23,17 +23,23 @@ public class Rotate_Camera : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if (Input.GetMouseButtonDown (1)) {
+			yRot += Input.GetAxis ("Mouse X") * sensitivity;
 
-		if (Input.GetKey (KeyCode.I)) {
-			transform.RotateAround (player.transform.position, Vector3.up, 1);
-		}
+			//xRot = Mathf.Clamp (xRot, -90, 90);
 
-		if (Input.GetKey (KeyCode.P)) {
-			transform.RotateAround (player.transform.position, Vector3.up, -1);
+			Debug.Log ("A: " + yRot);
+
+			//currentXRot = Mathf.SmoothDamp (currentXRot, xRot, ref xRotV, lookSmoothDamp);
+			currentYRot = Mathf.SmoothDamp (currentYRot, yRot, ref yRotV, lookSmoothDamp);
+
+			Debug.Log ("B: " + currentYRot);
+
 		}
 
 		if (Input.GetMouseButton (1)) {
 			Cursor.lockState = CursorLockMode.Locked;
+
 			//xRot -= Input.GetAxis ("Mouse Y") * sensitivity;
 			yRot += Input.GetAxis ("Mouse X") * sensitivity;
 

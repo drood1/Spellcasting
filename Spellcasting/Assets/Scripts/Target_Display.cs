@@ -36,9 +36,9 @@ public class Target_Display : MonoBehaviour {
 			HP_Bar.enabled = true;
 			Mana_Bar.enabled = true;
 			Portrait.enabled = true;
-			Debug.Log("UPDATING DAT PORTRAIT");
+			//Debug.Log("UPDATING DAT PORTRAIT");
 			Portrait.sprite = target.GetComponent<Stats> ().target_portrait;
-			Debug.Log (target.GetComponent<Stats> ().target_portrait.name);
+			//Debug.Log (target.GetComponent<Stats> ().target_portrait.name);
 		}
 
 	}

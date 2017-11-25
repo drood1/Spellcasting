@@ -9,8 +9,10 @@ public class Mind_Flay : MonoBehaviour {
 	public Player_Stats owner;
 
 	public float duration = 3f;
-	public float num_ticks = 3;
+	public float time_between_ticks = 1;
+	public int num_ticks = 3;
 	public float damage_per_tick = 5;
+	public int ticks_done = 0;
 
 	public string input_key = "a";
 
@@ -25,6 +27,8 @@ public class Mind_Flay : MonoBehaviour {
 	public GameObject bar_bg_obj;
 	public Image cast_bar;
 
+	public GameObject mind_flay_text;
+
 	// Use this for initialization
 	void Start () {
 		owner = GameObject.Find ("Player").GetComponent<Player_Stats> ();
@@ -32,11 +36,31 @@ public class Mind_Flay : MonoBehaviour {
 		cast_bar_obj = GameObject.Find ("CastBar");
 		bar_bg_obj = GameObject.Find ("CastBar_BG");
 		cast_bar = GameObject.Find ("CastBar").GetComponent<Image>();
+		mind_flay_text = GameObject.Find ("Mind_Flay_Text");
+		mind_flay_text.SetActive (false);
 		cast_bar.fillAmount = 0;
 	}
 
-	void TickDamage(float amount)	{
-		target.GetComponent<Stats>().TakeDamage(amount);
+	void TickDamage()	{
+		if (target != null)	{
+			target.GetComponent<Stats> ().TakeDamage (damage_per_tick);
+			ticks_done++;
+			Debug.Log ("MIND FLAY DAMAGE DEALT! (" + ticks_done + ")");
+
+			if (ticks_done < num_ticks) {
+				Invoke ("TickDamage", time_between_ticks);
+			} 
+			else {
+				ticks_done = 0;
+				owner.casting = false;
+				mind_flay_text.SetActive (false);
+			}
+		}
+		else {
+			ticks_done = 0;
+			owner.casting = false;
+			mind_flay_text.SetActive (false);
+		}
 	}
 	
 	// Update is called once per frame
@@ -64,10 +88,12 @@ public class Mind_Flay : MonoBehaviour {
 					else if (tar_dir_f > forward_angle + view_threshold_deg || tar_dir_f < forward_angle - view_threshold_deg || tar_dir_f == forward_angle) {
 						Debug.Log (forward_angle + " IS NOT IN FRONT OF YOU");
 					}
-					//all pre-checks successful, cast begins
+					//*******************all pre-checks successful, cast begins
 					else {
 						owner.casting = true;
-						Debug.Log ("Cast started!");
+						mind_flay_text.SetActive (true);
+						//Debug.Log ("Cast started!");
+						Invoke ("TickDamage", time_between_ticks);
 					}
 				}
 				else
@@ -81,7 +107,9 @@ public class Mind_Flay : MonoBehaviour {
 		if (owner.casting == true && rb.velocity.magnitude > 0) {
 			Debug.Log ("SPELL CANCELLED DUE TO MOVEMENT");
 			CancelInvoke ();
+			ticks_done = 0;
 			owner.casting = false;
+			mind_flay_text.SetActive (false);
 		}
 	}
 }
