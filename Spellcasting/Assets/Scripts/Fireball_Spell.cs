@@ -106,6 +106,7 @@ public class Fireball_Spell: MonoBehaviour {
 						Invoke ("FinishCast", cast_time);
 						fireball_text.SetActive (true);
 						owner.casting = true;
+						owner.channeling = false;
 						owner.time_cast_started = Time.time;
 						owner.cast_time = cast_time;
 						Debug.Log ("Cast started!");

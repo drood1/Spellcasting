@@ -91,7 +91,10 @@ public class Mind_Flay : MonoBehaviour {
 					//*******************all pre-checks successful, cast begins
 					else {
 						owner.casting = true;
+						owner.channeling = true;
 						mind_flay_text.SetActive (true);
+						owner.time_cast_started = Time.time;
+						owner.cast_time = duration;
 						//Debug.Log ("Cast started!");
 						Invoke ("TickDamage", time_between_ticks);
 					}
