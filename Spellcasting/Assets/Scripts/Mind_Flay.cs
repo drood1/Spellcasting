@@ -25,9 +25,9 @@ public class Mind_Flay : MonoBehaviour {
 
 	public GameObject cast_bar_obj;
 	public GameObject bar_bg_obj;
-	public Image cast_bar;
 
-	public GameObject mind_flay_text;
+	public Image cast_bar;
+	public Text cast_bar_text;
 
 	// Use this for initialization
 	void Start () {
@@ -36,8 +36,8 @@ public class Mind_Flay : MonoBehaviour {
 		cast_bar_obj = GameObject.Find ("CastBar");
 		bar_bg_obj = GameObject.Find ("CastBar_BG");
 		cast_bar = GameObject.Find ("CastBar").GetComponent<Image>();
-		mind_flay_text = GameObject.Find ("Mind_Flay_Text");
-		mind_flay_text.SetActive (false);
+		cast_bar_text = GameObject.Find ("Spell_Text").GetComponent<Text>();
+		cast_bar_text.text = "";
 		cast_bar.fillAmount = 0;
 	}
 
@@ -53,13 +53,13 @@ public class Mind_Flay : MonoBehaviour {
 			else {
 				ticks_done = 0;
 				owner.casting = false;
-				mind_flay_text.SetActive (false);
+				cast_bar_text.text = "";
 			}
 		}
 		else {
 			ticks_done = 0;
 			owner.casting = false;
-			mind_flay_text.SetActive (false);
+			cast_bar_text.text = "";
 		}
 	}
 	
@@ -92,7 +92,7 @@ public class Mind_Flay : MonoBehaviour {
 					else {
 						owner.casting = true;
 						owner.channeling = true;
-						mind_flay_text.SetActive (true);
+						cast_bar_text.text = "Mind Flay";
 						owner.time_cast_started = Time.time;
 						owner.cast_time = duration;
 						//Debug.Log ("Cast started!");
@@ -108,11 +108,11 @@ public class Mind_Flay : MonoBehaviour {
 
 		//casting is interrupted by movement
 		if (owner.casting == true && rb.velocity.magnitude > 0) {
-			Debug.Log ("SPELL CANCELLED DUE TO MOVEMENT");
+			Debug.Log ("MIND FLAY CANCELLED DUE TO MOVEMENT");
 			CancelInvoke ();
 			ticks_done = 0;
 			owner.casting = false;
-			mind_flay_text.SetActive (false);
+			cast_bar_text.text = "";
 		}
 	}
 }

@@ -32,7 +32,7 @@ public class Fireball_Spell: MonoBehaviour {
 	public float view_threshold_deg = 60f;
 
 	public Image cast_bar;
-	public GameObject fireball_text;
+	public Text cast_bar_text;
 
 	// Use this for initialization
 	void Start () {
@@ -41,8 +41,8 @@ public class Fireball_Spell: MonoBehaviour {
 		cast_bar_obj = GameObject.Find ("CastBar");
 		bar_bg_obj = GameObject.Find ("CastBar_BG");
 		cast_bar = GameObject.Find ("CastBar").GetComponent<Image>();
-		fireball_text = GameObject.Find ("Fireball_Text");
-		fireball_text.SetActive (false);
+		cast_bar_text = GameObject.Find ("Spell_Text").GetComponent<Text>();
+		cast_bar_text.text = "";
 		cast_bar.fillAmount = 0;
 	}
 
@@ -58,7 +58,7 @@ public class Fireball_Spell: MonoBehaviour {
 			Debug.Log (forward_angle + " IS NOT IN FRONT OF YOU");
 			OnCD = true;
 			owner.casting = false;
-			fireball_text.SetActive (false);
+			cast_bar_text.text = "";
 			return;
 		}
 
@@ -71,7 +71,8 @@ public class Fireball_Spell: MonoBehaviour {
 		owner.casting = false;
 		time_completed = Time.time;
 		OnCD = true;
-		fireball_text.SetActive (false);
+		cast_bar_text.text = "";
+
 	}
 	
 	// Update is called once per frame
@@ -104,7 +105,7 @@ public class Fireball_Spell: MonoBehaviour {
 					//all pre-checks successful, cast begins
 					else {
 						Invoke ("FinishCast", cast_time);
-						fireball_text.SetActive (true);
+						cast_bar_text.text = "Fireball";
 						owner.casting = true;
 						owner.channeling = false;
 						owner.time_cast_started = Time.time;
@@ -123,10 +124,10 @@ public class Fireball_Spell: MonoBehaviour {
 
 		//casting is interrupted by movement
 		if (owner.casting == true && rb.velocity.magnitude > 0) {
-			Debug.Log ("SPELL CANCELLED DUE TO MOVEMENT");
+			Debug.Log ("FIREBALL CANCELLED DUE TO MOVEMENT");
 			CancelInvoke ();
 			owner.casting = false;
-			fireball_text.SetActive (false);
+			cast_bar_text.text = "";
 		}
 
 	}
