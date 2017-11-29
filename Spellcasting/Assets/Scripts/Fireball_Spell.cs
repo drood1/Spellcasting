@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Fireball_Spell: MonoBehaviour {
 	public GameObject target;
 
-	public Player_Stats owner;
+	public Cast_Manager owner;
 
 	public GameObject fireball_obj;
 
@@ -34,9 +34,11 @@ public class Fireball_Spell: MonoBehaviour {
 	public Image cast_bar;
 	public Text cast_bar_text;
 
+	public string spell_name = "Fireball";
+
 	// Use this for initialization
 	void Start () {
-		owner = GameObject.Find ("Player").GetComponent<Player_Stats> ();
+		owner = GameObject.Find ("Player").GetComponent<Cast_Manager> ();
 		rb = GetComponent<Rigidbody> ();
 		cast_bar_obj = GameObject.Find ("CastBar");
 		bar_bg_obj = GameObject.Find ("CastBar_BG");
@@ -105,7 +107,7 @@ public class Fireball_Spell: MonoBehaviour {
 					//all pre-checks successful, cast begins
 					else {
 						Invoke ("FinishCast", cast_time);
-						cast_bar_text.text = "Fireball";
+						cast_bar_text.text = spell_name;
 						owner.casting = true;
 						owner.channeling = false;
 						owner.time_cast_started = Time.time;

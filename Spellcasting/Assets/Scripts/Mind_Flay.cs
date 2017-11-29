@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Mind_Flay : MonoBehaviour {
 	public GameObject target;
 
-	public Player_Stats owner;
+	public Cast_Manager owner;
 
 	public float duration = 3f;
 	public float time_between_ticks = 1;
@@ -29,9 +29,11 @@ public class Mind_Flay : MonoBehaviour {
 	public Image cast_bar;
 	public Text cast_bar_text;
 
+	public string spell_name = "Mind Flay";
+
 	// Use this for initialization
 	void Start () {
-		owner = GameObject.Find ("Player").GetComponent<Player_Stats> ();
+		owner = GameObject.Find ("Player").GetComponent<Cast_Manager> ();
 		rb = GetComponent<Rigidbody> ();
 		cast_bar_obj = GameObject.Find ("CastBar");
 		bar_bg_obj = GameObject.Find ("CastBar_BG");
@@ -92,7 +94,7 @@ public class Mind_Flay : MonoBehaviour {
 					else {
 						owner.casting = true;
 						owner.channeling = true;
-						cast_bar_text.text = "Mind Flay";
+						cast_bar_text.text = spell_name;
 						owner.time_cast_started = Time.time;
 						owner.cast_time = duration;
 						//Debug.Log ("Cast started!");
